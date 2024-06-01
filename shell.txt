@@ -1,0 +1,225 @@
+
+>>> u1 = User.objects.create_user(username='DSS')
+>>> u1
+<User: DSS>
+>>> u2 = User.objects.create_user(username='qqq')
+>>> u2
+<User: qqq>
+>>> u2 = Author.objects.create(authorUser=u1)
+>>> u1
+<User: DSS>
+>>> u2
+<Author: Author object (1)>
+>>> u2
+<Author: Author object (1)>
+>>> u1
+<User: DSS>
+rUser_id
+>>> u1
+<User: DSS>
+>>> u2
+<Author: Author object (1)>
+>>> u3 = User.objects.create_user(username='sam')
+>>> Author.objects.create(authorUser=u3)
+<Author: Author object (2)>
+
+>>> Category.objects.create(name='IT')
+<Category: Category object (1)>
+>>> Category.objects.create(name='AI')
+<Category: Category object (2)>
+>>> Category.objects.create(name='CRYPTO')
+<Category: Category object (3)>
+>>> Category.objects.create(name='VR')
+<Category: Category object (4)>
+>>> author = Author.objects.get(id=1)
+>>> author
+<Author: Author object (1)>
+>>> post.objects.create(author=author, categoryType='NW', title='sometitle', t
+ext'somebigtext')
+  File "<console>", line 1
+    post.objects.create(author=author, categoryType='NW', title='sometitle', t
+ext'somebigtext')
+
+                ^
+SyntaxError: positional argument follows keyword argument
+>>> Post.objects.create(author=author, categoryType='NW', title='sometitle', t
+ext'somebigtext')
+  File "<console>", line 1
+    Post.objects.create(author=author, categoryType='NW', title='sometitle', t
+ext'somebigtext')
+
+                ^
+SyntaxError: positional argument follows keyword argument
+>>> P
+>>> Post.objects.create(author=author, categoryType='NW', title='sometitle', t
+ext='somebigtext')
+<Post: Post object (1)>
+>>> Post.objects.create(author=author, categoryType='AR', title='sometitle', t
+ext='somebigtext')
+<Post: Post object (2)>
+>>> Post.objects.create(author=author, categoryType='AR', title='sometitle', t
+ext='somebigtext')
+<Post: Post object (3)>
+>>> Post.object.get(id=1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Post' has no attribute 'object'. Did you mean: 'o
+bjects'?
+>>> Post.objects.get(id=1)
+<Post: Post object (1)>
+>>> Post.objects.get(id=1).PostCategory.add(Category.objects.get(id=1))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Post' object has no attribute 'PostCategory'. Did you mean: '
+postCategory'?
+>>> Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+>>> Post.objects.get(id=1).postCategory.add(Category.objects.get(id=2))
+>>> Post.objects.get(id=2).postCategory.add(Category.objects.get(id=1))
+>>> Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2))
+>>> Post.objects.get(id=3).postCategory.add(Category.objects.get(id=1))
+>>> Post.objects.get(id=3).postCategory.add(Category.objects.get(id=2))
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Aut
+hor.objects.get(id=1, text='anytextbyauthor'))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+query.py", line 635, in get
+    clone = self._chain() if self.query.combinator else self.filter(*args, **k
+wargs)
+                                                        ^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+query.py", line 1476, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+query.py", line 1494, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+query.py", line 1501, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+sql\query.py", line 1613, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+sql\query.py", line 1645, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ^^^^^^^^^^^^^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+sql\query.py", line 1495, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+sql\query.py", line 1307, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_m
+eta())
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^
+  File "F:\python project\News_portal\venv\Lib\site-packages\django\db\models\
+sql\query.py", line 1772, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'text' into field. C
+hoices are: authorUser, authorUser_id, id, post, ratingAuthor
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Aut
+hor.objects.get(id=1).authorUser, text='anytextbyauthor')
+<Comment: Comment object (1)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Aut
+hor.objects.get(id=1).authorUser, text='anytextbyauthor')
+<Comment: Comment object (2)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Aut
+hor.objects.get(id=1).authorUser, text='anytextbyauthor')
+<Comment: Comment object (3)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Aut
+hor.objects.get(id=2).authorUser, text='anytextbyauthor')
+<Comment: Comment object (4)>
+>>> Comment.objectsget(id=1).like()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Comment' has no attribute 'objectsget'. Did you m
+ean: 'objects'?
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).rating
+1
+>>> Comment.objects.get(id=2).dislike()
+>>> Comment.objects.get(id=2).rating
+-1
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).rating
+4
+>>> Comment.objects.get(id=3).dislike()
+>>> Comment.objects.get(id=3).dislike()
+>>> Author.objects.get(id=1))
+  File "<console>", line 1
+    Author.objects.get(id=1))
+                            ^
+SyntaxError: unmatched ')'
+>>> Author.objects.get(id=1)
+<Author: Author object (1)>
+>>> a = Author.objects.get(id=1)
+>>> a.update_rating()
+>>> a.ratingAuthor
+1
+>>> post.objects.get(id=1).like()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'post' is not defined. Did you mean: 'Post'?
+>>> Post.objects.get(id=1).like()
+>>> a.update_rating()
+>>> a.ratingAuthor
+4
+>>> a = Author.objects.order_by('-ratingAuthor')[:1]
+>>> a
+<QuerySet [<Author: Author object (1)>]>
+>>> c = User.objects.create_user(username='Sn')
+>>> Author.objects.create(authorUser=c)
+<Author: Author object (3)>
+>>> a = Author.objects.order_by('-ratingAuthor')[:1]
+>>> a = Author.objects.order_by('-ratingAuthor')
+>>> a
+<QuerySet [<Author: Author object (1)>, <Author: Author object (2)>, <Author:
+Author object (3)>]>
+>>> a = Author.objects.order_by('-ratingAuthor')[:1]
+>>> a
+<QuerySet [<Author: Author object (1)>]>
+>>> for i in a:
+... i.ratingAuthor
+  File "<console>", line 2
+    i.ratingAuthor
+    ^
+IndentationError: expected an indented block after 'for' statement on line 1
+>>> for i in a:
+... i.ratingAuthor
+  File "<console>", line 2
+    i.ratingAuthor
+    ^
+IndentationError: expected an indented block after 'for' statement on line 1
+>>> for i in a:
+... i.ratingAuthor
+  File "<console>", line 2
+    i.ratingAuthor
+    ^
+IndentationError: expected an indented block after 'for' statement on line 1
+>>> for i in a:
+...     i.ratingAuthor
+...     i.authorUser.username
+...
+4
+'DSS'
+>>> Comment.get.dateCreation(id=1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Comment' has no attribute 'get'
+>>> comment = Comment.objects.get(id=1)
+>>> date_creation = comment.dateCreation
+>>> o = date_creation = comment.dateCreation
+>>> o
+datetime.datetime(2024, 6, 1, 22, 23, 49, 530063, tzinfo=datetime.timezone.utc
+)
+>>>
